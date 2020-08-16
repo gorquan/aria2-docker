@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  aria2:
+    image: p3terx/aria2-pro
+    container_name: aria2-pro
+    restart: always
+    ports:
+    - "6800:6800"
+    - "6888:6888"
+    - "6888:6888/udp"
+    logging:
+      options:
+        max-size: 1m
+    environment:
+    - PUID=$UID
+    - PGID=$GID
+    - RPC_SECRET=secret
+    volumes:
+    - ./aria2-config:/config
+    - ./aria2-downloads:/downloads
+  aria2-web:
+    image: nginx:alpine
+    container_name: aria2-web
+    ports:
+    - "7000:80"
+    volumes:
+    - ./aria-2-nginx-config:/etc/nginx/
+    - ./aria-2-web:/var/www/domain/public/
+    restart: always
+
+
